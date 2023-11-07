@@ -5,16 +5,17 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: {
       value: true,
-      message: 'Name field is required',
+      message: 'Country field is required',
     },
   },
-  direction: {
+  director: {
     type: String,
     required: {
       value: true,
-      message: 'Name field is required',
+      message: 'Director field is required',
     },
   },
+  /*
   duration: {
     type: Number,
     required: {
@@ -29,6 +30,7 @@ const movieSchema = new mongoose.Schema({
       message: 'Name field is required',
     },
   },
+
   description: {
     type: String,
     required: {
@@ -96,7 +98,7 @@ const movieSchema = new mongoose.Schema({
         return enLettersRegex.test(value);
       },
     },
-  },
+  }, */
 });
 
 export default mongoose.model('movie', movieSchema);

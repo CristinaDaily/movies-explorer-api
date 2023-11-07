@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
-import { isEmail } from 'validator';
+import validator from 'validator';
+
 // import bcrypt from 'bcryptjs';
+
+const { isEmail } = validator;
 
 const userSchema = new mongoose.Schema(
   {
@@ -24,7 +27,7 @@ const userSchema = new mongoose.Schema(
         value: true,
         message: 'Password is required',
       },
-      select: false,
+      //select: false,
     },
     name: {
       type: String,

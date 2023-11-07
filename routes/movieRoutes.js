@@ -1,9 +1,10 @@
 import { Router } from 'express';
+import { getMovie, saveMovie, deleteMovie } from '../controllers/movies.js';
 
 const movieRoutes = Router();
 
-movieRoutes.get('/', (req, res) => { res.send('GET'); });
-movieRoutes.post('/', (req, res) => { res.send('POST'); });
-movieRoutes.delete('/:movieId', (req, res) => { res.send('delete ID'); });
+movieRoutes.get('/', getMovie);
+movieRoutes.post('/', saveMovie);
+movieRoutes.delete('/:movieId', deleteMovie);
 
 export default movieRoutes;

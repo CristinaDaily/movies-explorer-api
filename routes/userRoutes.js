@@ -1,9 +1,9 @@
 import { Router } from 'express';
+import { getUser, updateUser } from '../controllers/users.js';
 
 const userRoutes = Router();
 
-// userRoutes.get('/', getUsers);  i dont entirely know if we need
-userRoutes.get('/me', (req, res) => { res.send('GET'); });
-userRoutes.patch('/me', (req, res) => { res.send('PATCH'); });
+userRoutes.get('/me', getUser);
+userRoutes.patch('/me', updateUser);
 
 export default userRoutes;

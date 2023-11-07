@@ -10,7 +10,7 @@ app.use(json());
 
 app.use(router);
 
-mongoose.connect('mongodb://127.0.0.1:27017/movieappdb');
+mongoose.connect('mongodb://localhost:27017/movieappdb');
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
