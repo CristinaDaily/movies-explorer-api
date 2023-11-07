@@ -1,17 +1,21 @@
 import express, { json } from 'express';
 import mongoose from 'mongoose';
-import 'dotenv/config';
 import router from './routes/index.js';
+import 'dotenv/config';
 
 const app = express();
-const { PORT = 3000 } = process.env;
+const { PORT, MONGO_URL } = process.env;
 
 app.use(json());
 
 app.use(router);
 
-mongoose.connect('mongodb://localhost:27017/movieappdb');
+async function init() {
+  await mongoose.connect(MONGO_URL);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+  await app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
+  });
+}
+
+init();

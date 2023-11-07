@@ -15,7 +15,6 @@ const movieSchema = new mongoose.Schema({
       message: 'Director field is required',
     },
   },
-  /*
   duration: {
     type: Number,
     required: {
@@ -75,7 +74,7 @@ const movieSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    default: [],
+    required: true,
   },
   movieId: {
     type: Number,
@@ -98,7 +97,7 @@ const movieSchema = new mongoose.Schema({
         return enLettersRegex.test(value);
       },
     },
-  }, */
+  }, 
 });
 
 export default mongoose.model('movie', movieSchema);
