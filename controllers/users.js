@@ -3,7 +3,7 @@ import User from '../models/user.js';
 import BadRequestError from '../errors/badRequestErr.js';
 import ConflictError from '../errors/conflictError.js';
 import NotFoundError from '../errors/notFoundErr.js';
-import AuthenticationError from '../errors/authenticationError.js'
+import AuthenticationError from '../errors/authenticationError.js';
 import generateTtoken from '../utils/jwt.js';
 
 const SOLT_ROUNDS = 10;
@@ -46,11 +46,34 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const getCurrentUser = (req, res) => {
-  res.send('getCurrentUser ');
-  // here should be a middlew which save user._id to request
+export const getCurrentUser = (req, res, next) => {
+  const currentUser = req.user._id;
+  User.findById(currentUser)
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Пользователь по указанному id не найден');
+      }
+      res.send(user);
+    })
+    .catch(next);
 };
 
-export const updateUser = (req, res) => {
-  res.send('UserUpdate');
+export const updateUser = async (req, res, next) => {
+  try {
+    const userUpdates = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { $set: userUpdates },
+      { runValidators: true, new: true },
+    );
+    if (!user) {
+      throw new NotFoundError('Пользователь с указанным id не найден');
+    }
+    return res.send(user);
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+    }
+    return next(error);
+  }
 };
