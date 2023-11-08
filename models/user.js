@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import validator from 'validator';
 
 // import bcrypt from 'bcryptjs';
@@ -27,7 +28,7 @@ const userSchema = new mongoose.Schema(
         value: true,
         message: 'Password is required',
       },
-      //select: false,
+      select: false,
     },
     name: {
       type: String,
@@ -41,5 +42,23 @@ const userSchema = new mongoose.Schema(
   },
   { versionKey: false },
 );
+
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        throw new Error('NotAutanticate');
+      }
+
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            throw new Error('NotAutanticate');
+          }
+
+          return user;
+        });
+    });
+};
 
 export default mongoose.model('user', userSchema);

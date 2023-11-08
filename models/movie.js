@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import validator from 'validator';
+
+const { isURL } = validator;
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -42,8 +45,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function validateImage(v) {
-        const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,3}(:\d{1,5})?([/?#]\S*)?$/;
-        return urlRegex.test(v);
+        return isURL(v);
       },
       message: (props) => `${props.value} is not a valid image link`,
     },
@@ -53,8 +55,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function validateLink(v) {
-        const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,3}(:\d{1,5})?([/?#]\S*)?$/;
-        return urlRegex.test(v);
+        return isURL(v);
       },
       message: (props) => `${props.value} is not a valid trailler link`,
     },
@@ -65,8 +66,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function validateImage(v) {
-        const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,3}(:\d{1,5})?([/?#]\S*)?$/;
-        return urlRegex.test(v);
+        return isURL(v);
       },
       message: (props) => `${props.value} is not a valid image link`,
     },
@@ -97,7 +97,7 @@ const movieSchema = new mongoose.Schema({
         return enLettersRegex.test(value);
       },
     },
-  }, 
+  },
 });
 
 export default mongoose.model('movie', movieSchema);
