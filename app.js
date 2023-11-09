@@ -2,16 +2,18 @@ import express, { json } from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { errors } from 'celebrate';
+import helmet from 'helmet';
 import router from './routes/index.js';
 import 'dotenv/config';
 import errorHandler from './middleware/errorHandler.js';
-import { errors } from 'celebrate';
 import NotFoundError from './errors/notFoundErr.js';
 import { requestLogger, errorLogger } from './middleware/logger.js';
 
 const { PORT, MONGO_URL } = process.env;
 const app = express();
 
+app.use(helmet());
 app.use(cors({ origin: ['http://localhost:3001'], credentials: true, maxAge: 60 }));
 
 app.use(json());
