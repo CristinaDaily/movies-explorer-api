@@ -1,27 +1,28 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import AuthenticationError from '../errors/authenticationError.js';
 
 const { JWT_SECRET, NODE_ENV } = process.env;
 
 export default function auth(req, res, next) {
   let payload;
   try {
-    const token = req.headers.authorization;
-    // const token = req.cookies.jwt;
+    //const token = req.headers.authorization;
+    const token = req.cookies.jwt;
 
     if (!token) {
-      throw new Error('NotAutanticate');
+      throw new AuthenticationError('Authorization required');
     }
-    const valideToken = token.replace('Bearer ', '');
-    payload = jwt.verify(valideToken, NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret');
+    const validToken = token.replace('Bearer ', '');
+    payload = jwt.verify(validToken, NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret');
   } catch (error) {
-    if (error.message === 'NotAutanticate') {
-      return res.status(401).send({ message: 'Authorization required', error });
-    }
     if (error.name === 'JsonWebTokenError') {
-      return res.status(401).send({ message: 'Something wrong with the token', error });
+      next(new AuthenticationError('Something wrong with the token'));
     }
-    return res.status(500).send({ message: 'На сервере произошла ошибка' });
+    if (error.name === 'TokenExpiredError') {
+      return next(new AuthenticationError('Token has expired'));
+    }
+    return next(error);
   }
   req.user = payload;
   return next();
