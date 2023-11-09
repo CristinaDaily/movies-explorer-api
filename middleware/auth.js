@@ -7,7 +7,7 @@ const { JWT_SECRET, NODE_ENV } = process.env;
 export default function auth(req, res, next) {
   let payload;
   try {
-    //const token = req.headers.authorization;
+    // const token = req.headers.authorization;
     const token = req.cookies.jwt;
 
     if (!token) {

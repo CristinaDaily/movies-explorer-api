@@ -49,5 +49,5 @@ const validateMovieId = celebrate({
 });
 
 export {
-  validateUser, validateLoginData, validateUserUpdate, validateMovie, validateMovieId
+  validateUser, validateLoginData, validateUserUpdate, validateMovie, validateMovieId,
 };

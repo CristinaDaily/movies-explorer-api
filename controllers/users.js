@@ -80,3 +80,8 @@ export const updateUser = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const signout = (req, res) => {
+  res.clearCookie('jwt');
+  res.json({ message: 'User signed out successfully' });
+};

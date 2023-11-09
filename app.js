@@ -7,6 +7,7 @@ import 'dotenv/config';
 import errorHandler from './middleware/errorHandler.js';
 import { errors } from 'celebrate';
 import NotFoundError from './errors/notFoundErr.js';
+import { requestLogger, errorLogger } from './middleware/logger.js';
 
 const { PORT, MONGO_URL } = process.env;
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors({ origin: ['http://localhost:3001'], credentials: true, maxAge: 60 
 
 app.use(json());
 app.use(cookieParser());
+app.use(requestLogger);
 
 app.use(router);
 
@@ -22,6 +24,7 @@ app.use((req, res, next) => {
   const error = new NotFoundError('Маршрут не найден');
   next(error);
 });
+app.use(errorLogger);
 
 app.use(errors()); // обработчик ошибок celebrate
 
