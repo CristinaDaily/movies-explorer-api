@@ -10,7 +10,7 @@ import errorHandler from './middleware/errorHandler.js';
 import NotFoundError from './errors/notFoundErr.js';
 import { requestLogger, errorLogger } from './middleware/logger.js';
 
-const { PORT, MONGO_URL } = process.env;
+const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/movieappdb' } = process.env;
 const app = express();
 
 app.use(helmet());
