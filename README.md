@@ -1,7 +1,8 @@
 # movies-explorer-api
 
-IP
-Backend
+IP 62.84.115.209
+
+api.movieexplorer.nomoredomainsmonster.ru
 
 # Overview
 This is the server-side component of a learning project for a Movie-explorer application. It is developed using Node.js, employing the Express.js framework for API implementation, and Mongoose for database interaction with MongoDB. The project focuses on two main entities: users and saved movies.
@@ -10,7 +11,6 @@ This is the server-side component of a learning project for a Movie-explorer app
 Node.js, Express.js, MongoDB, Mongoose, Bcrypt, Joi
 
 # Running the Project
-To run the project, use the following npm commands:
+npm run start -  Launches the server.
 
-npm run start: Launches the server.
-npm run dev: Launches the server with hot-reload for development purposes.
+npm run dev - Launches the server with hot-reload for development purposes.
