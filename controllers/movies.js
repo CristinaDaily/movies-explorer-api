@@ -4,8 +4,12 @@ import NotFoundError from '../errors/notFoundErr.js';
 import ForbiddenError from '../errors/forbiddenError.js';
 
 export const getMovie = (req, res, next) => {
-  Movie.find({})
-    .then((movie) => res.send(movie))
+  const owner = req.user.id;
+
+  Movie.find({ owner })
+    .then((movies) => {
+      res.send(movies);
+    })
     .catch(next);
 };
 
