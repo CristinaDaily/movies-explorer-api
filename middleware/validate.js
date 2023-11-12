@@ -1,5 +1,7 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 
+const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,3}(:\d{1,5})?([/?#]\S*)?$/;
+
 const validateUser = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -30,9 +32,9 @@ const validateMovie = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().uri(),
-    trailerLink: Joi.string().required().uri(),
-    thumbnail: Joi.string().required().uri(),
+    image: Joi.string().regex(urlRegex).required(),
+    trailerLink: Joi.string().regex(urlRegex).required(),
+    thumbnail: Joi.string().regex(urlRegex).required(),
     owner: Joi.string().required(),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required().regex(/^[а-яА-Я0-9\s.,:;!?()]+$/),
