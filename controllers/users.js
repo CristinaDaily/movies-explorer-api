@@ -54,7 +54,7 @@ export const getCurrentUser = (req, res, next) => {
   User.findById(currentUser)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь по указанному id не найден');
+        throw new NotFoundError('The user with specified ID was not  found');
       }
       res.send(user);
     })
@@ -70,12 +70,15 @@ export const updateUser = async (req, res, next) => {
       { runValidators: true, new: true },
     );
     if (!user) {
-      throw new NotFoundError('Пользователь с указанным id не найден');
+      throw new NotFoundError('The user with specified ID was not  found');
     }
     return res.send(user);
   } catch (error) {
     if (error.name === 'ValidationError') {
       next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+    }
+    if (error.code === MONGO_DUPLCATE_ERROR_CODE) {
+      next(new ConflictError('This email already exists'));
     }
     return next(error);
   }
