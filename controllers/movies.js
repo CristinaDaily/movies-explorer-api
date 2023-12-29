@@ -4,7 +4,7 @@ import NotFoundError from '../errors/notFoundErr.js';
 import ForbiddenError from '../errors/forbiddenError.js';
 
 export const getMovie = (req, res, next) => {
-  const owner = req.user.id;
+  const owner = req.user._id;
 
   Movie.find({ owner })
     .then((movies) => {
@@ -15,7 +15,8 @@ export const getMovie = (req, res, next) => {
 
 export const createMovie = (req, res, next) => {
   const movieData = req.body;
-  const owner = req.user.id;
+  const owner = req.user._id;
+
   Movie.create({ ...movieData, owner })
     .then((movie) => res.send(movie))
     .catch((error) => {
@@ -26,8 +27,9 @@ export const createMovie = (req, res, next) => {
     });
 };
 
-export const deleteMovie = (req, res, next) => {
+export const deleteMovie = async (req, res, next) => {
   const userId = req.user._id;
+
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
@@ -41,5 +43,7 @@ export const deleteMovie = (req, res, next) => {
     .then((deletedMovie) => {
       res.send(deletedMovie);
     })
-    .catch(next);
+    .catch((err) => {
+      next(err);
+    });
 };

@@ -34,9 +34,9 @@ const validateMovie = celebrate({
     image: Joi.string().regex(urlRegex).required(),
     trailerLink: Joi.string().regex(urlRegex).required(),
     thumbnail: Joi.string().regex(urlRegex).required(),
-    owner: Joi.string().required(),
+    // owner: Joi.string().required(),
     movieId: Joi.number().required(),
-    nameRU: Joi.string().required().regex(/^[а-яА-Я0-9\s.,:;!?()]+$/),
+    nameRU: Joi.string().required().regex(/^[а-яА-Яa-zA-Z0-9\s.,:;!?&()]+$/),
     nameEN: Joi.string().required().regex(/[a-zA-Z0-9\s.,:;!?()]+/),
   }),
 });

@@ -84,7 +84,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validator: function validateRussianLetters(value) {
-      const ruLettersRegex = /^[а-яА-Я0-9\s.,:;!?()]+$/;
+      const ruLettersRegex = /^["«»а-яА-Яa-zA-Z0-9\s.,:;!?&()]+$/;
       return ruLettersRegex.test(value);
     },
   },
